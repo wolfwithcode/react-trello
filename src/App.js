@@ -14,10 +14,10 @@ class App extends React.Component {
     this.setState( { boards : data.boards });
   }
 
-  // updateState = () => {
-  //   this.setState( { boards : data.boards });
-  //   // this.state.boards = "some value";
-  // }
+  updateState = () => {
+    this.setState( { boards : data.boards });
+    // this.state.boards = "some value";
+  }
 
   render(){
     return (
