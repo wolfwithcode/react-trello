@@ -8,6 +8,7 @@ ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
+  // <h2>React Trello</h2>,
   document.getElementById('root')
 );
 
