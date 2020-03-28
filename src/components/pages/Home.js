@@ -1,5 +1,6 @@
 import React from 'react'
 import BoardPreview from '../BoardPreview'
+import PropTypes from 'prop-types'
 
 class Home extends React.Component  {
 
@@ -26,6 +27,12 @@ newBoard = () => {
            </div>
         )
     }
+}
+
+
+Home.propTypes = {
+    boards: PropTypes.array.isRequired,
+    createNewBoard: PropTypes.func.isRequired
 }
 
 export default Home
