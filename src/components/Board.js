@@ -39,12 +39,24 @@ class Board extends React.Component {
         }
 
         this.addBoardInput.current.value = '';
-        
+
     }
 
     render(){
         return (
-            <div>
+            <div className= "board-wrapper" 
+                style= {{
+                    backgroundColor: this.props.location.state.background
+                    // backgroundColor: this.state.currentBoard.background 
+                }}
+                // style={{ backgroundColor:   "#80ffaa"  }}
+            >
+                <div className="board-header" >
+                    <h3>
+                        {this.props.location.state.title}
+                    </h3>
+                    <button>Delete board</button>
+                </div>
                 <div className="lists-wrapper">
                     <button onClick={this.createNewList}>New list</button>
                     {Object.keys(this.state.currentLists).map(key => (
