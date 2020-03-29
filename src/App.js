@@ -4,6 +4,9 @@ import './App.css';
 import Board from './components/Board'
 import data from './sampleData'
 import Home from './components/pages/Home'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import PageNotFound from './components/pages/PageNotFound'
+
 
 class App extends React.Component {
   state = {
@@ -33,9 +36,15 @@ class App extends React.Component {
     // console.log(this.state.boards);
     return (
       <div>        
-        <Home boards={this.state.boards} 
-          createNewBoard={this.createNewBoard}/>
-        <Board />
+        <BrowserRouter>
+          <Route exact path="/" component={PageNotFound} />
+          <Route path="/board" component={Board} />
+          <Route component={PageNotFound} />
+          <Home boards={this.state.boards} 
+            createNewBoard={this.createNewBoard}/>
+          <Board />
+        </BrowserRouter>
+        
       </div>
     );
   }
