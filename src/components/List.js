@@ -10,12 +10,13 @@ class List extends React.Component {
                 <div className="list-header">
                     <p>{this.props.list.title}</p>
                 </div>
+                {Object.keys(this.props.list.cards).map(key => (
+                  <Card
+                    key={key}
+                    data={this.props.list.cards[key]}
+                  />  
+                ))}
                 
-                {Object.keys(this.props.list.cards).map( key => (
-                    <Card 
-                        key={key} 
-                        data={this.props.list.cards[key]}/>
-                ))}     
                            
             </div>
            
