@@ -17,7 +17,8 @@ newBoard = () => {
     render (){
         return (
             <div>
-                <CreateBoardForm createNewBoard={this.props.createNewBoard}/>
+                <span>{this.props.match.params.userId}</span>
+                <CreateBoardForm createNewBoard={this.props.createNewBoard} />
                 <div className="board-preview-wrapper" >
                 {
                     Object.keys(this.props.boards).map( key => (

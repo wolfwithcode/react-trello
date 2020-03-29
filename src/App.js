@@ -39,15 +39,25 @@ class App extends React.Component {
         <BrowserRouter>
         <Switch>        
             <Route             
-              path="/" 
+              path="/:userId/boards" 
               exact 
-              render = {() => (
-                  <Home boards={this.state.boards} 
+              render = {(props) => (
+                  <Home 
+                    {...props}
+                    boards={this.state.boards} 
                     createNewBoard={this.createNewBoard}/>
                 )}           
               />
 
-            <Route path="/board" component={Board} />
+            <Route 
+              path="/board/:boardId" 
+              // component={Board} 
+              render={props => (
+                <Board 
+                  {...props}
+                />
+              )}
+            />
             <Route component={PageNotFound} />
             
             <Board />
