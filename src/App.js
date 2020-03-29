@@ -37,12 +37,21 @@ class App extends React.Component {
     return (
       <div>        
         <BrowserRouter>
-          <Route exact path="/" component={PageNotFound} />
-          <Route path="/board" component={Board} />
-          <Route component={PageNotFound} />
-          <Home boards={this.state.boards} 
-            createNewBoard={this.createNewBoard}/>
-          <Board />
+        <Switch>        
+            <Route             
+              path="/" 
+              exact 
+              render = {() => (
+                  <Home boards={this.state.boards} 
+                    createNewBoard={this.createNewBoard}/>
+                )}           
+              />
+
+            <Route path="/board" component={Board} />
+            <Route component={PageNotFound} />
+            
+            <Board />
+          </Switch>
         </BrowserRouter>
         
       </div>
