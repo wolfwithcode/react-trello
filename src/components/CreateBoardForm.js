@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class CreateBoardForm extends React.Component {
     state = {
@@ -18,7 +19,7 @@ class CreateBoardForm extends React.Component {
 
         if(board.title && board.background){
             // this.props.createNewBoard(board)
-            console.log(board);
+            // console.log(board);
             this.props.createNewBoard(board);
         }
     }
@@ -48,6 +49,11 @@ class CreateBoardForm extends React.Component {
            </form>
         )
     }
+}
+
+
+CreateBoardForm.propTypes = {
+    createNewBoard: PropTypes.func.isRequired
 }
 
 export default CreateBoardForm
