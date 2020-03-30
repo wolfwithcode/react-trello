@@ -6,7 +6,7 @@ import Board from './components/Board'
 import Home from './components/pages/Home'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import PageNotFound from './components/pages/PageNotFound'
-import { boardsRef } from './firebase'
+import { boardsRef, listsRef , cardsRef} from './firebase'
 
 
 class App extends React.Component {
@@ -59,6 +59,49 @@ class App extends React.Component {
   //   createNewBoard( board ){
   //   this.setState({ boards:[...this.state.boards, board] })
   // }
+    deleteList = async (listId) => {
+        try {
+            // const listId = this.props.list.id
+            const cards = await cardsRef
+                .where('card.listId', '==' , listId)
+                .get()
+                if( cards.docs.length !== 0){
+                    cards.forEach(card => {
+                        card.ref.delete()
+                    })
+                }
+            const list = await listsRef.doc(listId)
+            list.delete()
+        } catch (error){
+            console.error('Error deleting list: ', error)
+        }
+    }
+
+  deleteBoard = async boardId => {
+    try {
+      // alert(boardId)
+      const lists = await listsRef
+          .where('list.board', '==', boardId)
+          .get()
+      if( lists.docs.length !== 0) {
+        lists.forEach( list => {
+          this.deleteList(list.ref.id)
+        })
+      }
+
+      const board = await boardsRef.doc(boardId)
+      this.setState({
+        boards: [
+          ...this.state.boards.filter( board => {
+            return board.id !== boardId
+          })
+        ]
+      })
+      board.delete()
+    } catch (error) {
+      console.error('Error deleting board: ', error)
+    }
+  }
 
   render(){
     // this.setState( { boards : data.boards });
@@ -85,6 +128,8 @@ class App extends React.Component {
               render={props => (
                 <Board 
                   {...props}
+                  deleteBoard={this.deleteBoard}
+                  deleteList={this.deleteList}
                 />
               )}
             />

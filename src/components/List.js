@@ -13,22 +13,23 @@ class List extends React.Component {
         this.fetchCards(this.props.list.id)
     }
 
-    deleteList = async () => {
-        try {
-            const listId = this.props.list.id
-            const cards = await cardsRef
-                .where('card.listId', '==' , listId)
-                .get()
-                if( cards.docs.length !== 0){
-                    cards.forEach(card => {
-                        card.ref.delete()
-                    })
-                }
-            const list = await listsRef.doc()
-        } catch (error){
-            console.error('Error deleting list: ', error)
-        }
-    }
+    // deleteList = async () => {
+    //     try {
+    //         const listId = this.props.list.id
+    //         const cards = await cardsRef
+    //             .where('card.listId', '==' , listId)
+    //             .get()
+    //             if( cards.docs.length !== 0){
+    //                 cards.forEach(card => {
+    //                     card.ref.delete()
+    //                 })
+    //             }
+    //         const list = await listsRef.doc(listId)
+    //         list.delete()
+    //     } catch (error){
+    //         console.error('Error deleting list: ', error)
+    //     }
+    // }
 
     fetchCards = async listId => {
         try{
@@ -72,6 +73,10 @@ class List extends React.Component {
         
     }
 
+    deleteList = () => {
+        const listId = this.props.list.id
+        this.props.deleteList(listId)
+    }
 
     render(){
         return (
@@ -105,7 +110,8 @@ class List extends React.Component {
 
 
 List.protoTypes = {
-    list: PropTypes.object.isRequired
+    list: PropTypes.object.isRequired,
+    deleteList: PropTypes.func.isRequired
 }
 
 export default List

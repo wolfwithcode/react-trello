@@ -1,7 +1,9 @@
 import React from 'react'
 import List from './List'
+import PropTypes from 'prop-types'
 // import data from '../sampleData'
 import { boardsRef, listsRef } from '../firebase'
+import { checkPropTypes } from 'prop-types'
 
 class Board extends React.Component {
     state = {
@@ -69,6 +71,11 @@ class Board extends React.Component {
             }            
         }
 
+    deleteBoard = async () => {
+        const boardId = this.props.match.params.boardId
+        this.props.deleteBoard(boardId)
+    }
+
     render(){
         return (
             <div className= "board-wrapper" 
@@ -82,7 +89,7 @@ class Board extends React.Component {
                     <h3>
                         {this.state.currentBoard.title}
                     </h3>
-                    <button>Delete board</button>
+                    <button onClick={this.deleteBoard} >Delete board</button>
                 </div>
                 <div className="lists-wrapper">
                     <button onClick={this.createNewList}>New list</button>
@@ -90,6 +97,7 @@ class Board extends React.Component {
                         <List 
                         key={ this.state.currentLists[key].id }
                         list={ this.state.currentLists[key] }
+                        deleteList={ this.props.deleteList }
                         />
                     ))}              
                 </div>
@@ -107,6 +115,12 @@ class Board extends React.Component {
             
         )
     }
+}
+
+
+Board.propTypes = {
+    deleteBoard: PropTypes.func.isRequired,
+    deleteList: PropTypes.func.isRequired
 }
 
 export default Board
