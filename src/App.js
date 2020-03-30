@@ -103,6 +103,16 @@ class App extends React.Component {
     }
   }
 
+  updateBoard = async (boardId, newTitle)  => {
+    try {
+        const board = await boardsRef.doc(boardId)
+        board.update({ 'board.title' :  newTitle })
+    } catch (error) {
+      console.error('Error updating board: ', error)
+    }
+    
+  }
+
   render(){
     // this.setState( { boards : data.boards });
     // console.log(this.state.boards);
@@ -128,6 +138,7 @@ class App extends React.Component {
               render={props => (
                 <Board 
                   {...props}
+                  updateBoard={this.updateBoard}
                   deleteBoard={this.deleteBoard}
                   deleteList={this.deleteList}
                 />
