@@ -6,6 +6,7 @@ import data from './sampleData'
 import Home from './components/pages/Home'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import PageNotFound from './components/pages/PageNotFound'
+import { boardsRef } from './firebase'
 
 
 class App extends React.Component {
@@ -16,6 +17,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.setState( { boards : data.boards });
+    // boardsRef.add({ name: 'hello' })
   }
 
   // updateState = () => {
