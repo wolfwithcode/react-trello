@@ -2,30 +2,35 @@ import React from 'react'
 import Card from './Card'
 import { render } from '@testing-library/react'
 import PropTypes from 'prop-types'
+import { cardsRef } from '../firebase'
 
 class List extends React.Component {
     state = {
         currentCards: []
     }
     nameInput = React.createRef();
-    createNewCard = (e) => {
-        e.preventDefault();
-        const card = {
-            text: this.nameInput.current.value,
-            listId: 'abc123',
-            labels: [],
-            createdAt: new Date()
-        }
+    createNewCard = async (e) => {
+        try{                    
+            e.preventDefault();
+            const card = {
+                text: this.nameInput.current.value,
+                listId: this.props.list.id,
+                labels: [],
+                createdAt: new Date()
+            }
 
-        if(card.text){
-            this.setState(
-                { currentCards: 
-                    [...this.state.currentCards, card]
-                })
+            if( card.text && card.listId ){
+                await cardsRef.add({ card })
+            }
+            this.nameInput.current.value = ''
+            console.log('new card added '+ card.text)
+        } catch(error){
+            console.error(' error creating new card: ', error);
         }
-        this.nameInput.current.value = ''
-        console.log('new card added '+ card.text)
+        
     }
+
+
     render(){
         return (
             <div className="list" >

@@ -1,59 +1,66 @@
 import React from 'react'
 import List from './List'
 import data from '../sampleData'
+import { boardsRef, listsRef } from '../firebase'
 
 class Board extends React.Component {
     state = {
+        currentBoard: {},
         currentLists: []
     }
 
     componentDidMount(){
+        this.getBoard(this.props.match.params.boardId)
         this.setState({ currentLists: data.lists })
+    }
+
+    getBoard = async boardId => {
+        try {
+            const board = await boardsRef.doc(boardId).get()
+            this.setState( { currentBoard: board.data().board } )
+        } catch (error) {
+            console.log('Error getting boards', error)
+        }
     }
 
     addBoardInput = React.createRef();
 
-    createNewList = (e) => {
-        e.preventDefault();
-        // console.log(this.addBoardInput.current.value);
-        const list = {
-            id: Math.random(),
-            title: this.addBoardInput.current.value,
-            board: 300,
-            createdAt: new Date(),
-            cards: [
-                {
-                    id: 1,
-                    text: 'Card 1'
-                },
-                {
-                    id: 2,
-                    text: 'Card 2'
+    createNewList = async (e) => {
+        try{        
+                e.preventDefault();
+                // console.log(this.addBoardInput.current.value);
+                const list = {
+                    // id: Math.random(),
+                    title: this.addBoardInput.current.value,
+                    board: this.props.match.params.boardId,
+                    createdAt: new Date(),
+                    
                 }
-               
-            ]
+
+                if( list.title && list.board ){
+                    // this.setState({currentLists: [...this.state.currentLists, list] });
+                    await listsRef.add({ list })
+                }
+
+                this.addBoardInput.current.value = '';
+
+            } catch (error) {
+                console.error('Error creating a new list', error);
+            }            
         }
-
-        if(list.title){
-            this.setState({currentLists: [...this.state.currentLists, list] });
-        }
-
-        this.addBoardInput.current.value = '';
-
-    }
 
     render(){
         return (
             <div className= "board-wrapper" 
                 style= {{
-                    backgroundColor: this.props.location.state.background
-                    // backgroundColor: this.state.currentBoard.background 
+                    // backgroundColor: this.props.location.state.background
+                    backgroundColor: this.state.currentBoard.background 
                 }}
                 // style={{ backgroundColor:   "#80ffaa"  }}
             >
                 <div className="board-header" >
                     <h3>
-                        {this.props.location.state.title}
+                        {this.state.currentBoard.title}
                     </h3>
                     <button>Delete board</button>
                 </div>
