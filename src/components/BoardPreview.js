@@ -1,5 +1,5 @@
 import React from 'react'
-import Board from './Board'
+// import Board from './Board'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 

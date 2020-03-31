@@ -1,6 +1,8 @@
 import React from 'react'
 import { cardsRef } from '../firebase';
 import PropTypes from 'prop-types'
+// import TextareAutosize from 'react-autosize-textarea'
+import TextareaAutosize from 'react-autosize-textarea';
 
 class EditCardModal extends React.Component {
     state = {
@@ -67,6 +69,7 @@ class EditCardModal extends React.Component {
                             <p className="label-title" > add / remove labels </p>
                             {this.state.availableLabels.map(  label => {
                                     return <span
+                                    key={label}
                                     onClick={() => this.setLabel(label)}
                                     className="label"
                                     style={{ background: label }} ></span>
@@ -75,11 +78,12 @@ class EditCardModal extends React.Component {
                             <hr />
                         </div>
                         <div className="edit-area">
-                            <span className="edit-icon" >&#x270E;</span>
-                            <input
+                            <span className="edit-icon" >&#x270E;</span>                           
+                            <TextareaAutosize
                                 className="textbox-edit"
                                 defaultValue={this.props.cardData.text}
-                                ref={this.textInput}></input>
+                                ref={this.textInput}
+                            ></TextareaAutosize>
                         </div>
                         <div>
                             <p className="label-title">labels:</p>
