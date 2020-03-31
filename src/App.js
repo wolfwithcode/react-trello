@@ -9,7 +9,7 @@ import PageNotFound from './components/pages/PageNotFound'
 import { boardsRef, listsRef , cardsRef} from './firebase'
 import { AuthProvider } from './components/AuthContext'
 import UserForm from './components/UserForm'
-
+import Header from './components/Header'
 
 class App extends React.Component {
   state = {
@@ -121,42 +121,42 @@ class App extends React.Component {
     return (
       <div>        
         <BrowserRouter>
-        <AuthProvider>        
-          <Switch>
-              <Route 
-                exact
-                path="/"
-                component={UserForm}
-              />        
-              <Route             
-                path="/:userId/boards" 
-                exact 
-                render = {(props) => (
-                    <Home 
-                      {...props}
-                      getBoards={this.getBoards}
-                      boards={this.state.boards} 
-                      createNewBoard={this.createNewBoard}/>
-                  )}           
-                />
-
-              <Route 
-                path="/board/:boardId" 
-                // component={Board} 
-                render={props => (
-                  <Board 
-                    {...props}
-                    updateBoard={this.updateBoard}
-                    deleteBoard={this.deleteBoard}
-                    deleteList={this.deleteList}
+          <AuthProvider>        
+            <Switch>
+                <Route 
+                  exact
+                  path="/"
+                  component={UserForm}
+                />        
+                <Route             
+                  path="/:userId/boards" 
+                  exact 
+                  render = {(props) => (
+                      <Home 
+                        {...props}
+                        getBoards={this.getBoards}
+                        boards={this.state.boards} 
+                        createNewBoard={this.createNewBoard}/>
+                    )}           
                   />
-                )}
-              />
-              <Route component={PageNotFound} />
-              
-              <Board />
-            </Switch>
-          </AuthProvider>
+
+                <Route 
+                  path="/board/:boardId" 
+                  // component={Board} 
+                  render={props => (
+                    <Board 
+                      {...props}
+                      updateBoard={this.updateBoard}
+                      deleteBoard={this.deleteBoard}
+                      deleteList={this.deleteList}
+                    />
+                  )}
+                />
+                <Route component={PageNotFound} />
+                
+                <Board />
+              </Switch>
+            </AuthProvider>
         </BrowserRouter>
         
       </div>
