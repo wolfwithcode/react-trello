@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 // import data from '../sampleData'
 import { boardsRef, listsRef } from '../firebase'
 import { checkPropTypes } from 'prop-types'
+import { AuthConsumer } from './AuthContext'
+
 
 class Board extends React.Component {
     state = {
@@ -104,47 +106,53 @@ class Board extends React.Component {
 
     render(){
         return (
-            <div className= "board-wrapper" 
-                style= {{
-                    // backgroundColor: this.props.location.state.background
-                    backgroundColor: this.state.currentBoard.background 
-                }}
-                // style={{ backgroundColor:   "#80ffaa"  }}
-            >
-                <div className="board-header" >
-                    {/* <h3>
-                        {this.state.currentBoard.title}
-                    </h3> */}
-                    <input 
-                        type="text"
-                        name="boardTitle"
-                        onChange={this.updateBoard}
-                        defaultValue={this.state.currentBoard.title}
-                    />                    
-                    <button onClick={this.deleteBoard} >Delete board</button>
-                </div>
-                <div className="lists-wrapper">
-                    <button onClick={this.createNewList}>New list</button>
-                    {Object.keys(this.state.currentLists).map(key => (
-                        <List 
-                        key={ this.state.currentLists[key].id }
-                        list={ this.state.currentLists[key] }
-                        deleteList={ this.props.deleteList }
-                        />
-                    ))}              
-                </div>
-
-                <form onSubmit={this.createNewList}
-                        className="new-list-wrapper">
-                        <input
+            <AuthConsumer>
+                { ({ user }) => (
+                    <div className= "board-wrapper" 
+                    style= {{
+                        // backgroundColor: this.props.location.state.background
+                        backgroundColor: this.state.currentBoard.background 
+                    }}
+                    // style={{ backgroundColor:   "#80ffaa"  }}
+                    >
+                    {user.name}
+                    
+                    <div className="board-header" >
+                        {/* <h3>
+                            {this.state.currentBoard.title}
+                        </h3> */}
+                        <input 
                             type="text"
-                            ref={this.addBoardInput}
-                            name="name"
-                            placeholder=" + New List" />
+                            name="boardTitle"
+                            onChange={this.updateBoard}
+                            defaultValue={this.state.currentBoard.title}
+                        />                    
+                        <button onClick={this.deleteBoard} >Delete board</button>
+                    </div>
+                    <div className="lists-wrapper">
+                        <button onClick={this.createNewList}>New list</button>
+                        {Object.keys(this.state.currentLists).map(key => (
+                            <List 
+                            key={ this.state.currentLists[key].id }
+                            list={ this.state.currentLists[key] }
+                            deleteList={ this.props.deleteList }
+                            />
+                        ))}              
+                    </div>
 
-                </form>
-            </div>
-            
+                    <form onSubmit={this.createNewList}
+                            className="new-list-wrapper">
+                            <input
+                                type="text"
+                                ref={this.addBoardInput}
+                                name="name"
+                                placeholder=" + New List" />
+
+                    </form>
+                </div>
+                )}
+                
+            </AuthConsumer>
         )
     }
 }
