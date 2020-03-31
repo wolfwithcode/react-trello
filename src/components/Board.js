@@ -10,7 +10,8 @@ import { AuthConsumer } from './AuthContext'
 class Board extends React.Component {
     state = {
         currentBoard: {},
-        currentLists: []
+        currentLists: [],
+        message: ''
     }
 
     componentDidMount(){
@@ -60,8 +61,11 @@ class Board extends React.Component {
         try {
             const board = await boardsRef.doc(boardId).get()
             this.setState( { currentBoard: board.data().board } )
-        } catch (error) {
-            console.log('Error getting boards', error)
+        } catch ( error ) {
+            // console.log('Error getting boards', error)
+            this.setState({
+                message: 'Board not found...'
+            })
         }
     }
 
@@ -94,6 +98,9 @@ class Board extends React.Component {
     deleteBoard = async () => {
         const boardId = this.props.match.params.boardId
         this.props.deleteBoard(boardId)
+        this.setState({
+            message: 'Board not found...'
+        })
     }
 
     updateBoard = e => {
@@ -108,6 +115,11 @@ class Board extends React.Component {
         return (
             <AuthConsumer>
                 { ({ user }) => (
+                    <React.Fragment>
+
+                   
+                    {
+                    user.id === this.state.currentBoard.user ? (
                     <div className= "board-wrapper" 
                     style= {{
                         // backgroundColor: this.props.location.state.background
@@ -115,8 +127,7 @@ class Board extends React.Component {
                     }}
                     // style={{ backgroundColor:   "#80ffaa"  }}
                     >
-                    {user.name}
-                    
+                    {this.state.message === '' ? (
                     <div className="board-header" >
                         {/* <h3>
                             {this.state.currentBoard.title}
@@ -129,6 +140,9 @@ class Board extends React.Component {
                         />                    
                         <button onClick={this.deleteBoard} >Delete board</button>
                     </div>
+                    ) : (
+                    <h2>{this.state.message}</h2>
+                    ) }
                     <div className="lists-wrapper">
                         <button onClick={this.createNewList}>New list</button>
                         {Object.keys(this.state.currentLists).map(key => (
@@ -143,15 +157,19 @@ class Board extends React.Component {
                     <form onSubmit={this.createNewList}
                             className="new-list-wrapper">
                             <input
-                                type="text"
+                                type={this.state.message === '' ? 'text' : 'hidden'}
                                 ref={this.addBoardInput}
                                 name="name"
                                 placeholder=" + New List" />
 
                     </form>
                 </div>
-                )}
-                
+                ) : (
+                    <span></span>
+                    )
+                    }
+                 </React.Fragment>
+                )}                
             </AuthConsumer>
         )
     }
