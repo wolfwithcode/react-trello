@@ -121,7 +121,8 @@ class App extends React.Component {
     return (
       <div>        
         <BrowserRouter>
-          <AuthProvider>        
+          <AuthProvider>
+            <Header />
             <Switch>
                 <Route 
                   exact
