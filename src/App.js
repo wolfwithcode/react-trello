@@ -26,7 +26,11 @@ class App extends React.Component {
   getBoards = async userId => {
     try {
         this.setState({ boards: [] })
-        const boards = await boardsRef.get()
+        const boards = await boardsRef
+          .where('board.user', '==', userId)
+          .orderBy('board.createdAt')
+          .get()
+
         boards.forEach(board => {
           // console.log(board.data().board);
           const data = board.data().board
