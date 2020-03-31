@@ -8,6 +8,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import PageNotFound from './components/pages/PageNotFound'
 import { boardsRef, listsRef , cardsRef} from './firebase'
 import { AuthProvider } from './components/AuthContext'
+import UserForm from './components/UserForm'
+
 
 class App extends React.Component {
   state = {
@@ -120,7 +122,12 @@ class App extends React.Component {
       <div>        
         <BrowserRouter>
         <AuthProvider>        
-          <Switch>        
+          <Switch>
+              <Route 
+                exact
+                path="/"
+                component={UserForm}
+              />        
               <Route             
                 path="/:userId/boards" 
                 exact 
