@@ -32,6 +32,12 @@ class Card extends React.Component  {
                     className="card"
                     // style={{ display: this.props.modalOpen ? 'block' : 'none' }}
                 >
+                    <div className="cards-labels">
+                        {this.props.data.labels.map( label => {
+                            return <span key={label} style={{background: label}} className="label" ></span>
+                        })}
+
+                    </div>
                     <div className="card-body">
                         <p onClick={this.toggleModal} >{this.props.data.text}</p>
                         <span onClick={this.deleteCard}>&times;</span>
