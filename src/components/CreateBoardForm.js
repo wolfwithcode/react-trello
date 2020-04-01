@@ -15,7 +15,7 @@ class CreateBoardForm extends React.Component {
         const board = {
             title: this.state.title,
             background: this.state.background,
-            createAt: new Date(),
+            createdAt: new Date(),
             user: userId
         }
 
@@ -29,7 +29,7 @@ class CreateBoardForm extends React.Component {
     render () {
         return (
             <AuthConsumer>
-                {(user) => (
+                {( { user }) => (
                     <form className="create-board-wrapper"
                             onSubmit={ (e) => this.handleSubmit(e, user.id)}
                             >
